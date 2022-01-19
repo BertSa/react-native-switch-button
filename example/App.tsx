@@ -35,7 +35,7 @@ const App = () => {
             color: "#f1bb7b",
             fontWeight: "600",
           }}
-          onPress={(isActive: boolean) => alert(isActive)}
+          onPress={(isActive: boolean) => console.log(isActive)}
         />
         <SwitchButton
           inactiveImageSource={require("./assets/fingerprint.png")}

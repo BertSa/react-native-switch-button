@@ -39,6 +39,7 @@ interface ISwitchButtonProps {
   text?: string;
   mainColor?: string;
   tintColor?: string;
+  sameTextColor?: boolean;
   isActive?: boolean;
   disableText?: boolean;
   originalColor?: string;
@@ -141,13 +142,25 @@ export default class SwitchButton extends React.Component<
 
   renderText = () => {
     const { text, textStyle, textContainerStyle } = this.props;
-    return (
-      !this.props.disableText && (
-        <View style={[styles.textContainerStyle, textContainerStyle]}>
-          <Text style={textStyle}>{text}</Text>
-        </View>
-      )
-    );
+    if (this.props.disableText) {
+      return null;
+    }
+
+    if (this.props.sameTextColor) {
+      let mainColor = this.props.mainColor || MAIN_COLOR;
+      let tintColor = this.props.tintColor || TINT_COLOR;
+      const animatedTextColor = this.interpolatedColor.interpolate({
+        inputRange: [ORIGINAL_VALUE, ANIMATED_VALUE],
+        outputRange: [tintColor, mainColor]
+      });
+      return <Animated.View style={[styles.textContainerStyle, textContainerStyle]}>
+        <Animated.Text style={{ ...(textStyle as object), color: animatedTextColor }}>{text}</Animated.Text>
+      </Animated.View>;
+    }
+
+    return <View style={[styles.textContainerStyle, textContainerStyle]}>
+      <Text style={textStyle}>{text}</Text>
+    </View>;
   };
 
   render() {
