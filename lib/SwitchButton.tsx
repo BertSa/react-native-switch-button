@@ -59,9 +59,6 @@ export default class SwitchButton extends React.Component<
   constructor(props: ISwitchButtonProps) {
     super(props);
     this.interpolatedColor = new Animated.Value(ORIGINAL_VALUE);
-    this.state = {
-      isActive: false,
-    };
   }
 
   componentDidMount() {
@@ -70,9 +67,7 @@ export default class SwitchButton extends React.Component<
 
   handleActiveState = () => {
     if (this.props.isActive) {
-      this.setState({ isActive: !this.state.isActive }, () => {
-        this.state.isActive ? this.showFocusColor() : this.showOriginColor();
-      });
+        this.props.isActive ? this.showFocusColor() : this.showOriginColor();
     }
   };
 
@@ -93,9 +88,9 @@ export default class SwitchButton extends React.Component<
   };
 
   handlePress = () => {
-    this.setState({ isActive: !this.state.isActive }, () => {
-      this.state.isActive ? this.showFocusColor() : this.showOriginColor();
-      this.props.onPress && this.props.onPress(this.state.isActive);
+    this.setState({ isActive: !this.props.isActive }, () => {
+      this.props.isActive ? this.showFocusColor() : this.showOriginColor();
+      this.props.onPress && this.props.onPress(this.props.isActive as boolean);
     });
   };
 
@@ -113,10 +108,10 @@ export default class SwitchButton extends React.Component<
     const mainColor = this.props.mainColor || MAIN_COLOR;
     const originalColor = this.props.originalColor || ORIGINAL_COLOR;
     const tintColor = this.props.tintColor || TINT_COLOR;
-    const _animatedBGColorOutputRange = this.state.isActive
+    const _animatedBGColorOutputRange = this.props.isActive
       ? [mainColor, originalColor]
       : [originalColor, mainColor];
-    const _animatedTintColorOutputRange = this.state.isActive
+    const _animatedTintColorOutputRange = this.props.isActive
       ? [originalColor, tintColor]
       : [tintColor, originalColor];
     let animatedBackgroundColor = this.interpolatedColor.interpolate({
@@ -133,7 +128,7 @@ export default class SwitchButton extends React.Component<
         onPress={this.handlePress}
       >
         <Animated.Image
-          source={this.state.isActive ? activeImageSource : inactiveImageSource}
+          source={this.props.isActive ? activeImageSource : inactiveImageSource}
           style={[_imageStyle(animatedTintColor), imageStyle]}
         />
       </AnimatedRNBounceable>
