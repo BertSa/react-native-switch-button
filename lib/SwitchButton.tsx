@@ -43,9 +43,10 @@ export default function SwitchButton(props) {
     };
 
     const handlePress = () => {
-        props.handleChange(!props.isActive);
-        props.isActive ? showFocusColor() : showOriginColor();
-        props.onPress && props.onPress(props.isActive);
+        let active = !props.isActive
+        props.handleChange(active);
+        active ? showFocusColor() : showOriginColor();
+        props.onPress && props.onPress(active);
     };
 
     /* -------------------------------------------------------------------------- */
