@@ -68,6 +68,12 @@ export default class SwitchButton extends React.Component<
     this.handleActiveState();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isActive !== this.state.isActive) {
+      this.setState({ isActive: nextProps.isActive });
+    }
+  }
+
   handleActiveState = () => {
     if (this.props.isActive) {
       this.setState({ isActive: !this.state.isActive }, () => {
@@ -133,7 +139,7 @@ export default class SwitchButton extends React.Component<
         onPress={this.handlePress}
       >
         <Animated.Image
-          source={this.state.isActive ? activeImageSource : inactiveImageSource}
+          source={this.props.isActive ? activeImageSource : inactiveImageSource}
           style={[_imageStyle(animatedTintColor), imageStyle]}
         />
       </AnimatedRNBounceable>
