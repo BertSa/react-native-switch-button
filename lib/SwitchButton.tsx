@@ -17,10 +17,7 @@ const ANIMATED_VALUE = 1;
 
 
 export default function SwitchButton(props) {
-    let interpolatedColor: Animated.Value | undefined;
-    useEffect(() => {
-        interpolatedColor = new Animated.Value(ORIGINAL_VALUE);
-    }, [])
+    let interpolatedColor: Animated.Value=new Animated.Value(ORIGINAL_VALUE);
 
     useEffect(() => {
         handleActiveState();
@@ -31,23 +28,19 @@ export default function SwitchButton(props) {
     };
 
     const showOriginColor = () => {
-        if (interpolatedColor) {
             Animated.timing(interpolatedColor, {
                 duration: 350,
                 toValue: ORIGINAL_VALUE,
                 useNativeDriver: false,
             }).start();
-        }
     };
 
     const showFocusColor = () => {
-        if (interpolatedColor) {
             Animated.timing(interpolatedColor, {
                 duration: 450,
                 toValue: ANIMATED_VALUE,
                 useNativeDriver: false,
             }).start();
-        }
     };
 
     const handlePress = () => {
@@ -61,9 +54,6 @@ export default function SwitchButton(props) {
     /* -------------------------------------------------------------------------- */
 
     const renderBounceableButton = () => {
-        if (!interpolatedColor) {
-            return null;
-        }
         const {
             style,
             imageStyle,
@@ -73,11 +63,11 @@ export default function SwitchButton(props) {
         const mainColor = props.mainColor || MAIN_COLOR;
         const originalColor = props.originalColor || ORIGINAL_COLOR;
         const tintColor = props.tintColor || TINT_COLOR;
-        let animatedBackgroundColor = interpolatedColor?.interpolate({
+        let animatedBackgroundColor = interpolatedColor.interpolate({
             inputRange: [ORIGINAL_VALUE, ANIMATED_VALUE],
             outputRange: [originalColor, mainColor],
         });
-        let animatedTintColor = interpolatedColor?.interpolate({
+        let animatedTintColor = interpolatedColor.interpolate({
             inputRange: [ORIGINAL_VALUE, ANIMATED_VALUE],
             outputRange: [tintColor, originalColor],
         });
@@ -96,7 +86,7 @@ export default function SwitchButton(props) {
 
     const renderText = () => {
         const {text, textStyle, textContainerStyle} = props;
-        if (props.disableText || !interpolatedColor) {
+        if (props.disableText) {
             return null;
         }
 
@@ -116,9 +106,6 @@ export default function SwitchButton(props) {
             <Text style={textStyle}>{text}</Text>
         </View>;
     };
-    if (!interpolatedColor) {
-        return null;
-    }
     return (
         <View style={styles.container}>
             {renderBounceableButton()}
