@@ -17,10 +17,9 @@ const ANIMATED_VALUE = 1;
 
 
 export default function SwitchButton(props) {
-    const [interpolatedColor] =useState(new Animated.Value(ORIGINAL_VALUE));
+    const [interpolatedColor] = useState(new Animated.Value(ORIGINAL_VALUE));
     useEffect(() => {
         handleActiveState();
-        console.log("text", props.text);
     }, [props.isActive])
 
     const handleActiveState = () => {
@@ -28,24 +27,19 @@ export default function SwitchButton(props) {
     };
 
     const showOriginColor = () => {
-        if (interpolatedColor){
-
         Animated.timing(interpolatedColor, {
             duration: 350,
             toValue: ORIGINAL_VALUE,
             useNativeDriver: false,
         }).start();
-        }
     };
 
     const showFocusColor = () => {
-        if (interpolatedColor){
         Animated.timing(interpolatedColor, {
             duration: 450,
             toValue: ANIMATED_VALUE,
             useNativeDriver: false,
         }).start();
-        }
     };
 
     const handlePress = () => {
@@ -68,11 +62,11 @@ export default function SwitchButton(props) {
         const mainColor = props.mainColor || MAIN_COLOR;
         const originalColor = props.originalColor || ORIGINAL_COLOR;
         const tintColor = props.tintColor || TINT_COLOR;
-        let animatedBackgroundColor = interpolatedColor?.interpolate({
+        let animatedBackgroundColor = interpolatedColor.interpolate({
             inputRange: [ORIGINAL_VALUE, ANIMATED_VALUE],
             outputRange: [originalColor, mainColor],
         });
-        let animatedTintColor = interpolatedColor?.interpolate({
+        let animatedTintColor = interpolatedColor.interpolate({
             inputRange: [ORIGINAL_VALUE, ANIMATED_VALUE],
             outputRange: [tintColor, originalColor],
         });
@@ -98,7 +92,7 @@ export default function SwitchButton(props) {
         if (props.sameTextColor) {
             let mainColor = props.mainColor || MAIN_COLOR;
             let tintColor = props.tintColor || TINT_COLOR;
-            const animatedTextColor = interpolatedColor?.interpolate({
+            const animatedTextColor = interpolatedColor.interpolate({
                 inputRange: [ORIGINAL_VALUE, ANIMATED_VALUE],
                 outputRange: [tintColor, mainColor]
             });
