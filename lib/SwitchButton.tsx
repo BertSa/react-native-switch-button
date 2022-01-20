@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Animated, Text, View,} from "react-native";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 /**
@@ -17,12 +17,7 @@ const ANIMATED_VALUE = 1;
 
 
 export default function SwitchButton(props) {
-    let interpolatedColor: Animated.Value | undefined;
-    useEffect(() => {
-        if (!interpolatedColor){
-            interpolatedColor = new Animated.Value(ORIGINAL_VALUE);
-        }
-    }, []);
+    const [interpolatedColor] =useState(new Animated.Value(ORIGINAL_VALUE));
     useEffect(() => {
         handleActiveState();
         console.log("text", props.text);
@@ -116,9 +111,6 @@ export default function SwitchButton(props) {
             <Text style={textStyle}>{text}</Text>
         </View>;
     };
-    if (interpolatedColor === undefined) {
-        interpolatedColor = new Animated.Value(ORIGINAL_VALUE);
-    }
     return (
         <View style={styles.container}>
             {renderBounceableButton()}
