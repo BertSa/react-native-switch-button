@@ -25,6 +25,7 @@ export default function SwitchButton(props) {
     }, []);
     useEffect(() => {
         handleActiveState();
+        console.log("text", props.text);
     }, [props.isActive])
 
     const handleActiveState = () => {
