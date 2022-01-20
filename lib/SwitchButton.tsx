@@ -18,9 +18,11 @@ const ANIMATED_VALUE = 1;
 
 export default function SwitchButton(props) {
     let interpolatedColor: Animated.Value | undefined;
-    if (interpolatedColor === undefined) {
-        interpolatedColor = new Animated.Value(ORIGINAL_VALUE);
-    }
+    useEffect(() => {
+        if (!interpolatedColor){
+            interpolatedColor = new Animated.Value(ORIGINAL_VALUE);
+        }
+    }, []);
     useEffect(() => {
         handleActiveState();
     }, [props.isActive])
