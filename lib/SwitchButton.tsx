@@ -75,6 +75,7 @@ export default function SwitchButton(props) {
             <AnimatedRNBounceable
                 style={[_containerStyle(animatedBackgroundColor), style]}
                 onPress={handlePress}
+                disabled={props.disabled}
             >
                 <Animated.Image
                     source={props.isActive ? activeImageSource : inactiveImageSource}
