@@ -16,7 +16,28 @@ const ORIGINAL_VALUE = 0;
 const ANIMATED_VALUE = 1;
 
 
-export default function SwitchButton(props) {
+interface SwitchButtonProps {
+    isActive: boolean,
+    style?: any,
+    imageStyle?: any,
+    activeImageSource?: any,
+    inactiveImageSource?: any,
+    disabled?: boolean,
+    disabledOnClick?: boolean,
+    onPress?: (isActive: boolean) => void,
+    onLongPress?: () => void,
+    handleChange?: (isActive: boolean) => void,
+    mainColor?: string,
+    originalColor?: string,
+    tintColor?: string,
+    text?: string,
+    textStyle?: any,
+    textContainerStyle?: any,
+    disableText?: boolean,
+    sameTextColor?: boolean,
+}
+
+export default function SwitchButton(props: SwitchButtonProps) {
     const [interpolatedColor] = useState(new Animated.Value(ORIGINAL_VALUE));
     useEffect(() => {
         handleActiveState();
@@ -43,10 +64,16 @@ export default function SwitchButton(props) {
     };
 
     const handlePress = () => {
-        let active = !props.isActive
-        props.handleChange(active);
-        active ? showFocusColor() : showOriginColor();
-        props.onPress && props.onPress(active);
+        if (!props.disabledOnClick) {
+            let active = !props.isActive
+            props.handleChange && props.handleChange(active);
+            active ? showFocusColor() : showOriginColor();
+            props.onPress && props.onPress(active);
+        }
+    };
+
+    const handleLongPress = () => {
+        props.onLongPress && props.onLongPress();
     };
 
     /* -------------------------------------------------------------------------- */
@@ -75,6 +102,7 @@ export default function SwitchButton(props) {
             <AnimatedRNBounceable
                 style={[_containerStyle(animatedBackgroundColor), style]}
                 onPress={handlePress}
+                onLongPress={handleLongPress}
                 disabled={props.disabled}
             >
                 <Animated.Image
